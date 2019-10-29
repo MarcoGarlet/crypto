@@ -88,7 +88,6 @@ def feistel(r, round):
     C,D = key_pair[0],key_pair[1] 
     k2comp = C+D
     k_round=reduce(lambda x,y: x+y, [[k2comp[key_comp_table[i][j]-1] for j in range(8)] for i in range(6)])
-    #print('key_{} = {}'.format(round,k_round))
     return k_round
   def value_from_sbox(b,sbox):
     row, column = bin2decimal([b[0],b[-1]]),bin2decimal(b[1:-1])
