@@ -2,15 +2,6 @@ from functools import *
 import itertools
 
 lshift = lambda s: [s[(i+1)%len(s)] for i in range(len(s))]
-
-def bytes_to_bit(c):
-  b,c = [], ord(c)
-  for i in range(8):
-    b+=[c%2]
-    c=c//2 
-  b.reverse()
-  return b 
-
 bin2decimal = lambda v: reduce(lambda x,y: x+y, [v[len(v)-1-i]*(2**i) for i in range(len(v)-1,-1,-1)])
 
 def decimal2bin(n,t):
@@ -66,7 +57,7 @@ key_comp_table = [[14,17,11,24,1,5,3,28],[15,6,21,10,23,19,12,4],[26,8,16,7,27,2
 key = input('Insert key [8 chars]: ')
 while len(key)!=8: key = input('Please insert key [8 chars]: ')
 
-key = reduce(lambda x,y: x+y, [bytes_to_bit(c) for c in key])
+key = reduce(lambda x,y: x+y, [ decimal2bin(ord(c),8) for c in key])
 
 key_init_perm = reduce(lambda x,y: x+y, reduce(lambda x,y: x+y, [[[key[perm_table[i][j]-1] for j in range(8)] for i in range(7)]]))
 
@@ -111,7 +102,7 @@ if __name__=='__main__':
   passwd = input('Insert plaintext [length multiple of 8]: ')
   while len(passwd)%8!=0: passwd = input('Insert passwd: ')
   for pl in [passwd[8*i:8*i+8] for i in range(len(passwd)//8)]:
-    t = reduce(lambda x,y: x+y, [bytes_to_bit(c) for c in pl])
+    t = reduce(lambda x,y: x+y, [decimal2bin(ord(c),8) for c in pl])
     t = initial_permutation(t)
     print('initial perm = {}'.format(t))
     for i in range(1,17):
