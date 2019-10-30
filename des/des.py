@@ -18,7 +18,7 @@ def decimal2bin(n,t):
   while n>0:
     b+=[n%2]
     n=n//2
-  while len(b)<4: b+=[0]
+  while len(b)<t: b+=[0]
   return b[::-1]
 
 # logs
