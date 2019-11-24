@@ -4,3 +4,7 @@ Crypto aims to be a simple collection of cryptographic algorithms (even attacks)
 
 ### DES
 
+### AES
+
+### Useful algorithms
+
