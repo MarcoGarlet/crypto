@@ -1,8 +1,10 @@
 from functools import reduce
 import itertools
 
-mask1 = mask2 = polyred = None
 
+### SET GF
+
+mask1 = mask2 = polyred = None
 def setGF2(degree, irPoly):
     def i2P(sInt):
         return [(sInt >> i) & 1
@@ -60,39 +62,38 @@ def gf_invert(a, mod=0x1B) :
 
   return g1
 
+
+### END SET GF
+
+
+### USEFUL FUNCTIONS
+
 rshift = lambda x,y: [x[(i-y*1)%8] for i in range(8)]
+print_matrix = lambda x: print() or [[print('{:3}'.format(hex(el)), end=' ') for el in r] and print() for r in x] and print()
 int2vect = lambda c: [int(bit) for bit in bin(c%16).split('b')[1][::-1]+('0'*(4-len(bin(c%16).split('b')[1])))+bin(c//16%16).split('b')[1][::-1]+('0'*(4-len(bin(c//16%16).split('b')[1])))] 
 vect2int = lambda v: int(''.join([str(i) for i in v])[::-1],2)
 transposed_matrix = lambda v: [[v[i][i1] for i in range(len(v))] for i1 in range(len(v[0]))] 
+whitening = lambda key,plaintext: [[ key[i1][i] ^ plaintext[i1][i] for i in range(4)] for i1 in range(4)]
+rotword = lambda x: [x[1],x[2],x[-1],x[0]]
+subword = lambda x: sbox_v(x)
+sbox_v= lambda xy: vect2int(list(map(lambda x,y:x^y,[reduce(lambda x,y:x^y, l) for l in [list(map(lambda x,y: x*y, int2vect(gf_invert(xy)), crow)) for crow in cmatrix]],cvector)))
+to4matrix = lambda x: [[ord(c) for c in x[i*4:i*4+4]] for i in range(4)]
+decimal2bin = lambda x,t:[int(x) for x in '0'*(t-len(bin(10).split('b')[1]))+bin(10).split('b')[1]]
+
+#SET KEY FROM PASSWORD
+
+#passwd = input('Insert secret key [len <= 16]: ')
+passwd='\x0f\x15\x71\xc9\x47\xd9\xe8\x59\x0c\xb7\xad\xd6\xaf\x7f\x67\x98'
+while len(passwd)>16: passwd = input('Insert secret key [len <= 16]: ')
+while len(passwd)<16: passwd+='\x00'
+key = to4matrix(passwd)
+
+### CONSTANTS
+
 cvector = int2vect(0x63)
 cmatrix = [[1,0,0,0,1,1,1,1]]+[rshift([1,0,0,0,1,1,1,1],i) for i in range(1,8)]
 
-def sbox_v(xy): return vect2int(list(map(lambda x,y:x^y,[reduce(lambda x,y:x^y, l) for l in [list(map(lambda x,y: x*y, int2vect(gf_invert(xy)), crow)) for crow in cmatrix]],cvector)))
-
-to4matrix = lambda x: [[ord(c) for c in x[i*4:i*4+4]] for i in range(4)]
-
-def decimal2bin(n,t):
-  b = []
-  while n>0:
-    b+=[n%2]
-    n=n//2
-  while len(b)<t: b+=[0]
-  return b[::-1]
-
-#passwd = input('Insert secret key [len <= 16]: ')
-
-passwd='\x0f\x15\x71\xc9\x47\xd9\xe8\x59\x0c\xb7\xad\xd6\xaf\x7f\x67\x98'
-
-while len(passwd)>16: passwd = input('Insert secret key [len <= 16]: ')
-while len(passwd)<16: passwd+='\x00'
-
-key = to4matrix(passwd)
-
-whitening = lambda key,plaintext: [[ key[i1][i] ^ plaintext[i1][i] for i in range(4)] for i1 in range(4)]
-
-rotword = lambda x: [x[1],x[2],x[-1],x[0]]
-subword = lambda x: sbox_v(x)
-
+#CREATE ROUND KEYS
 
 def expand_key(key):
   # see https://csrc.nist.gov/csrc/media/publications/fips/197/final/documents/fips-197.pdf
@@ -104,7 +105,6 @@ def expand_key(key):
     wl = current_w[-1]
     rcon_v = [rcon,0,0,0]
     rcon=multGF2(rcon,2)
-    
     x=rotword(wl)
     #print([hex(el) for el in rcon_v])
     y=[subword(el) for el in x]
@@ -122,6 +122,8 @@ def expand_key(key):
 
 round_keys = expand_key(key)
 
+#AES FUNCTIONS
+
 def add_round_key(r,st_round):
   roundk = transposed_matrix(round_keys[r]) 
   return [[st_round[i][i1]^roundk[i][i1] for i1 in range(4)] for i in range(4)] 
@@ -138,13 +140,7 @@ def mix_columns(st_round):
   st_roundn = [[list(map(lambda x,y: multGF2(x,y),mrows,cvector)) for mrows in matrixc] for cvector in cvectors]
   return [[reduce(lambda x,y:x^y, st_roundn[i][j]) for i in range(4)] for j in range(4)]
 
-def print_matrix(m):
-  print()
-  for r in m:
-    for el in r:
-      print(hex(el), end=' ')
-    print()
-  print()
+#PUTTING ALL TOGETHER
 
 if __name__=='__main__':
   #plaintext = input('insert plaintext (16 char): ')
