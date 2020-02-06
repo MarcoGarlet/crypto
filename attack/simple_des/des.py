@@ -28,7 +28,7 @@ def F(R):
   return [int(c) for c in to_bin(C_comp)]+[int(c) for c in to_bin(D_comp)]
 
 
-if __name__=='__main__':
+def DES(plaintext):
   Li,Ri = plaintext[:len(plaintext)//2],plaintext[len(plaintext)//2:]
   for i in range(3):
     Rn = F(Ri)  
@@ -38,8 +38,12 @@ if __name__=='__main__':
     Li = Ri
     Ri = Rn
     print('Li={}, Ri={} '.format(Li,Ri))
-  print(Li+Ri)
- 
+  return Li+Ri
+
+if __name__ == "__main__":
+  plaintext = [0,0,0,1,1,1,0,1,1,0,1,1]
+  print(DES(plaintext))
+
 
 
 
