@@ -3,7 +3,6 @@ import random
 #CHOOSEN PLAINTEXT ATTACK
 
 secret_keys = [0,0,1,0,0,1,1,0,1]
-plaintext = [0,0,0,1,1,1,0,1,1,0,1,1]
 
 s1=[[5,2,1,6,3,4,7,0],[1,4,6,2,0,7,5,3]]
 s2=[[4,0,6,5,7,1,3,2],[5,3,0,7,6,2,1,4]]
@@ -40,9 +39,6 @@ def DES(plaintext):
     print('Li={}, Ri={} '.format(Li,Ri))
   return Li+Ri
 
-if __name__ == "__main__":
-  plaintext = [0,0,0,1,1,1,0,1,1,0,1,1]
-  print(DES(plaintext))
 
 
 
