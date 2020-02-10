@@ -21,17 +21,26 @@ if __name__=='__main__':
   dx_set, sx_set = {x for x in range(16)},{x for x in range(16)}
   
   R = [random.randint(0,1) for i in range(6)]
-
+  #L1 = [0,0,0,1,1,1]
+  #L1_st = [1,0,1,1,1,0]
+  
   while True: 
      
     dx_key, sx_key = [], []
-    L1 = [random.randint(0,1) for i in range(6)]
     L1_st = [random.randint(0,1) for i in range(6)]
+    L1 = [random.randint(0,1) for i in range(6)]
+    #R = [0,1,1,0,1,1]
+    #R = [random.randint(0,1) for i in range(6)]
+
     pl1, pl1_st = L1+R, L1_st+R
     #plp = [pl1[i] ^ pl1_st[i] for i in range(12)]
     
-    EL4, EL4_st = expansion(DES(L1+R)[:6]), expansion(DES(L1_st+R)[:6])
-    C1,C1_st=DES(pl1),DES(pl1_st)
+    C1=DES(pl1)
+    
+    C1_st = DES(pl1_st)
+    print('C1_st = {}'.format(C1_st)) 
+    EL4 = expansion(C1[:len(C1)//2])
+    EL4_st = expansion(C1_st[:len(C1_st)//2])
     '''
     considero differenza Z2 fra L1, L1_st
     
@@ -46,23 +55,50 @@ if __name__=='__main__':
     R4_p = [c[0] ^ c[1] for c in zip(C1[len(C1)//2:],C1_st[len(C1_st)//2:])]
     L1_p = [c[0] ^ c[1] for c in zip(pl1[:len(pl1)//2],pl1_st[:len(pl1_st)//2])]
     L1R4 = [c[0] ^ c[1] for c in list(zip(R4_p,L1_p))]
+    print('R4_p = {}, L1_p = {}, L1R4 = {}'.format(R4_p,L1_p,L1R4))
     EL4 = expansion(C1[:len(C1)//2])
     EL4_st = expansion(C1_st[:len(C1_st)//2])
     
-    EL4_p = [c[0] ^ c[1] for c in zip(EL4,EL4_st)]  
+    EL4_p = [c[0] ^ c[1] for c in zip(EL4,EL4_st)]    
+    print('EL4_p = {}'.format(EL4_p)) 
     sx_o, dx_o = int(''.join([str(c) for c in L1R4[:len(L1R4)//2]]),2),int(''.join([str(c) for c in L1R4[len(L1R4)//2:]]),2)
     sx_p, dx_p = int(''.join([str(c) for c in EL4_p[:len(EL4_p)//2]]),2), int(''.join([str(c) for c in EL4_p[len(EL4_p)//2:]]),2)
-    
+    print('sxp = {}'.format(bin(sx_p))) 
+    print('sxo = {}'.format(bin(sx_o)))
     for C in range(16):
       for D in range(16):
         if C ^ D == sx_p:
+          print('SX C = {}, D = {}'.format(to_4bin(C),to_4bin(D)))
           i1,i2 = int(to_4bin(C)[0]),int(''.join(to_4bin(C)[1:]),2)
           i3,i4 = int(to_4bin(D)[0]),int(''.join(to_4bin(D)[1:]),2)          
-          if s1[i1][i2]^s2[i3][i4] == sx_o:
+          print('C^D = {}'.format(bin(C^D)))
+          print('i1 = {}, i2 = {}\n i3 = {}, i4 = {}'.format(bin(i1),bin(i2),bin(i3),bin(i4)))
+          print('s1[i1][i2]={},s2[i3][i4] = {}'.format(bin(s1[i1][i2]),bin(s1[i3][i4]))) 
+          if s1[i1][i2]^s1[i3][i4] == sx_o:
+            print('{}'.format(bin(sx_o)))
+            print('s1 = {}, s2 = {}'.format(s1[i1][i2],s2[i3][i4]))
             sx_l4 = int(''.join([str(c) for c in EL4[:len(EL4)//2]]),2)
+            print('sx_l4 = {}'.format(bin(sx_l4)))
+           
             sx_l4st = int(''.join([str(c) for c in EL4_st[:len(EL4_st)//2]]),2)
-            sx_key+=[C^sx_l4]
+            print('sx_l4st = {}\n C^sx_l4 = {} \nD^sx_l4st = {}'.format(bin(sx_l4st),bin(C^sx_l4),bin(D^sx_l4st)))
+            
 
+            sx_key+=[C^sx_l4]
+        if C ^ D == dx_p:
+          print('DX C = {}, D = {}'.format(to_4bin(C),to_4bin(D)))
+          i1,i2 = int(to_4bin(C)[0]),int(''.join(to_4bin(C)[1:]),2)
+          i3,i4 = int(to_4bin(D)[0]),int(''.join(to_4bin(D)[1:]),2)          
+          if s2[i1][i2]^s2[i3][i4] == dx_o:
+            print('{}'.format(bin(dx_o)))
+            print('s2 = {}, s2 = {}'.format(s2[i1][i2],s2[i3][i4]))
+
+            dx_l4 = int(''.join([str(c) for c in EL4[len(EL4)//2:]]),2)
+            dx_l4st = int(''.join([str(c) for c in EL4_st[len(EL4_st)//2:]]),2)
+            dx_key+=[C^dx_l4]
+ 
+
+    '''
     for C in range(16):
       for D in range(16):
         if C ^ D == dx_p:
@@ -72,8 +108,8 @@ if __name__=='__main__':
             dx_l4 = int(''.join([str(c) for c in EL4[len(EL4)//2:]]),2)
             dx_l4st = int(''.join([str(c) for c in EL4_st[len(EL4_st)//2:]]),2)
             dx_key+=[C^dx_l4]
-    
-    
+            dx_key+=[D^dx_l4st]
+      '''
     print(dx_key)
     print(sx_key)
     
@@ -84,16 +120,13 @@ if __name__=='__main__':
     print('sx set = {}'.format(sx_set))
     
     if len(dx_set)==0:
-      print('ERROR DX')
+      print('ERROR')
+      exit(1)
+    if len(sx_set)==0:
+      print('ERROR')
       exit(1)
     
-    if len(sx_set)==0:
-      print('ERROR SX')
-      exit(1)
-      
-
     if len(dx_set) == 1 and len(sx_set)==1:
       break
-
         
 print('SOL k4 = {}{}'.format(to_4bin(sx_set.pop()),to_4bin(dx_set.pop())))

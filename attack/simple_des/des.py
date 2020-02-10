@@ -17,9 +17,15 @@ expansion = lambda R: R[0:2]+[R[3],R[2],R[3],R[2]]+R[4:]
 to_bin = lambda x: '0'*(3-len(bin(x).split('b')[1]))+bin(x).split('b')[1]
 round_keys = r_keys()
 
+def clear_skey():
+  global secret_keys 
+  secret_keys= [0,0,1,0,0,1,1,0,1]
+
+
+
 def F(R):
   R,k = expansion(R), next(round_keys)
-  #print('R = {}\n k = {}'.format(R,k))
+  print('R = {}\n k = {}'.format(R,k))
   R = [R[i]^k[i] for i in range(len(R))] 
   C,D = R[:4],R[4:]
   C_comp = s1[C[0]][int(''.join([str(i) for i in C[1:]]),2)]
@@ -28,15 +34,18 @@ def F(R):
 
 
 def DES(plaintext):
+  clear_skey()
+  print('SECRET = {}'.format(secret_keys))
   Li,Ri = plaintext[:len(plaintext)//2],plaintext[len(plaintext)//2:]
   for i in range(3):
     Rn = F(Ri)  
-    #print(Rn) 
-    #print(Li)
+    print(Rn) 
+    print(Li)
     Rn = [Rn[i] ^ Li[i] for i in range(len(Li))]
     Li = Ri
     Ri = Rn
-    #print('Li={}, Ri={} '.format(Li,Ri))
+    print('Li={}, Ri={} '.format(Li,Ri))
+   
   return Li+Ri
 
 
