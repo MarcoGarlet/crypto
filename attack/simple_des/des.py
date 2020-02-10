@@ -19,7 +19,7 @@ round_keys = r_keys()
 
 def F(R):
   R,k = expansion(R), next(round_keys)
-  print('R = {}\n k = {}'.format(R,k))
+  #print('R = {}\n k = {}'.format(R,k))
   R = [R[i]^k[i] for i in range(len(R))] 
   C,D = R[:4],R[4:]
   C_comp = s1[C[0]][int(''.join([str(i) for i in C[1:]]),2)]
@@ -31,12 +31,12 @@ def DES(plaintext):
   Li,Ri = plaintext[:len(plaintext)//2],plaintext[len(plaintext)//2:]
   for i in range(3):
     Rn = F(Ri)  
-    print(Rn) 
-    print(Li)
+    #print(Rn) 
+    #print(Li)
     Rn = [Rn[i] ^ Li[i] for i in range(len(Li))]
     Li = Ri
     Ri = Rn
-    print('Li={}, Ri={} '.format(Li,Ri))
+    #print('Li={}, Ri={} '.format(Li,Ri))
   return Li+Ri
 
 
