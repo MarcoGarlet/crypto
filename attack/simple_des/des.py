@@ -2,7 +2,9 @@ import random
 
 #CHOOSEN PLAINTEXT ATTACK
 
-secret_keys = [0,0,1,0,0,1,1,0,1]
+
+secret_keys = []
+
 
 s1=[[5,2,1,6,3,4,7,0],[1,4,6,2,0,7,5,3]]
 s2=[[4,0,6,5,7,1,3,2],[5,3,0,7,6,2,1,4]]
@@ -17,9 +19,13 @@ expansion = lambda R: R[0:2]+[R[3],R[2],R[3],R[2]]+R[4:]
 to_bin = lambda x: '0'*(3-len(bin(x).split('b')[1]))+bin(x).split('b')[1]
 round_keys = r_keys()
 
-def clear_skey():
-  global secret_keys 
-  secret_keys= [0,0,1,0,0,1,1,0,1]
+def clear_skey(k):
+  global secret_keys
+  if len(k)!=0: 
+    secret_keys= k.copy()
+  else:
+    secret_keys = [0,0,1,0,0,1,1,0,1] # GUESS IT
+   
 
 
 
@@ -33,8 +39,8 @@ def F(R):
   return [int(c) for c in to_bin(C_comp)]+[int(c) for c in to_bin(D_comp)]
 
 
-def DES(plaintext):
-  clear_skey()
+def DES(plaintext,sc=[]):
+  clear_skey(sc)
   print('SECRET = {}'.format(secret_keys))
   Li,Ri = plaintext[:len(plaintext)//2],plaintext[len(plaintext)//2:]
   for i in range(3):
