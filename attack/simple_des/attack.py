@@ -1,5 +1,7 @@
 from des import *
 import random
+import colorama
+from colorama import Fore, Style
 
 #S-BOXES are well-known
 s1=[[5,2,1,6,3,4,7,0],[1,4,6,2,0,7,5,3]]
@@ -126,7 +128,7 @@ k4v1 = k4v1[6:]+'1'+k4v1[:6]
 k4v2 = k4v2[6:]+'0'+k4v2[:6]
 
 if C1 == DES(pl1,[int(c) for c in k4v1]):
-  print('SOL K= {}'.format(k4v1))
+  print('SOL K= '+Fore.GREEN+'{}'.format(k4v1))
 else:
-  print('SOL K= {}'.format(k4v2))
+  print('SOL K= '+Fore.GREEN+'{}'.format(k4v2))
 
