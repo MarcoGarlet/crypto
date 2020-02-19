@@ -109,7 +109,7 @@ if __name__=='__main__':
     print('dx set = {}'.format(dx_set))
     print('sx set = {}'.format(sx_set))
     
-    if len(dx_set or sx_set)==0:
+    if len(dx_set) == 0  or len(sx_set)==0:
       print('ERROR')
       exit(1)
     
