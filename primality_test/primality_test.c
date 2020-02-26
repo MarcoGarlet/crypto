@@ -120,12 +120,12 @@ int miller_rabin_regolare(int16 n){
 }
 
 int miller_rabin_probabilistico(int16 n, int16 p){
-  unsigned int i,k;
-  for(i=0; i<p; i++){
-    k = (rand()%(n-3))+2;  
+  unsigned int i,k=2;
+  for(i=0; i<p && k<n-1; i++){
     printf("\n Choosen base = %u \n", k);
     if(miller_rabin_singola_base(n,k) == 1) 
       return 1;
+    k+=1;
   }
   return 0;
 }
