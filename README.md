@@ -11,4 +11,4 @@ Crypto aims to be a simple collection of cryptographic algorithms (even attacks)
 
 ### Useful algorithms
 * <a href="https://github.com/MarcoGarlet/crypto/blob/master/basic_algo/euclidean.py">Euclidean algorithm</a>
-* <a href="https://github.com/MarcoGarlet/crypto/blob/master/primality_test/deterministic/primality_test.c">Primality test</a>
+* <a href="https://github.com/MarcoGarlet/crypto/blob/master/primality_test/primality_test.c">Primality test</a>
