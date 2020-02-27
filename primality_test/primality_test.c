@@ -17,28 +17,28 @@ int main(int argc, char *argv[]) {
     char *mode = argv[1];
 
     if (!strcmp(mode, "deterministico")) {
-        int16 n = (int16) atoi(argv[2]);
+        int64 n = (int64) atoi(argv[2]);
         puts(test_deterministico(n) == NUMERO_PRIMO ? "NUMERO PRIMO" : "NUMERO COMPOSTO");
  	} else if (!strcmp(mode, "fermat_singola_base")) {
-        int16 n = (int16) atoi(argv[2]);
-        int16 a = (int16) atoi(argv[3]);
+        int64 n = (int64) atoi(argv[2]);
+        int64 a = (int64) atoi(argv[3]);
         puts(fermat_singola_base(n, a) == NUMERO_PRIMO ? "NUMERO PRIMO" : "NUMERO COMPOSTO");
     } else if (!strcmp(mode, "fermat")) {
-        int16 n = (int16) atoi(argv[2]);
+        int64 n = (int64) atoi(argv[2]);
         puts(test_fermat(n) == NUMERO_PRIMO ? "NUMERO PRIMO" : "NUMERO COMPOSTO");
     } else if (!strcmp(mode, "miller_singola_base")) {
-        int16 n = (int16) atoi(argv[2]);
-        int16 a = (int16) atoi(argv[3]);
+        int64 n = (int64) atoi(argv[2]);
+        int64 a = (int64) atoi(argv[3]);
         puts(miller_rabin_singola_base(n, a) == NUMERO_PRIMO ? "NUMERO PRIMO" : "NUMERO COMPOSTO");
     } else if (!strcmp(mode, "miller_regolare")) {
-        int16 n = (int16) atoi(argv[2]);
+        int64 n = (int64) atoi(argv[2]);
         puts(miller_rabin_regolare(n) == NUMERO_PRIMO ? "NUMERO PRIMO" : "NUMERO COMPOSTO");
     } else if (!strcmp(mode, "miller_probabilistico")) {
-        int16 n = (int16) atoi(argv[2]);
-        int16 precisione = (int16) atoi(argv[3]);
+        int64 n = (int64) atoi(argv[2]);
+        int64 precisione = (int64) atoi(argv[3]);
         puts(miller_rabin_probabilistico(n, precisione) == NUMERO_PRIMO ? "NUMERO PRIMO" : "NUMERO COMPOSTO");
     } else if (!strcmp(mode, "miller_test_errori")) {
-        int16 n = (int16) atoi(argv[2]);
+        int64 n = (int64) atoi(argv[2]);
         int classe = test_deterministico(n);
 
         // Scelgo il valore di a

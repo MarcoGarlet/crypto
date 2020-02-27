@@ -34,7 +34,7 @@ int miller_rabin_singola_base(int64 a, int64 b){
   int64 n=a-1, k=0, q=1, j;
   while(n%2 == 0){
     k+=1;
-    n/=2;
+    n=(int64)n/2;
   }
   //printf("\n k = %u \n",k);
   q = n;
@@ -43,7 +43,7 @@ int miller_rabin_singola_base(int64 a, int64 b){
   if(((int64)(pow(b,q))) % a == 1) return 1;
   for(j=0; j < k; j++){
     //printf("\n2 alla %u * %u = %u \n",j,q,(unsigned long)pow(2,j)*q);
-    if (((unsigned long)pow(b,((unsigned long)pow(2,j))*q))%a == a-1)
+    if (((int64)pow(b,((int64)pow(2,j))*q))%a == a-1)
       return 1;
   } 
   return 0;
@@ -60,7 +60,7 @@ int miller_rabin_regolare(int64 n){
   return 0;
 }
 int miller_rabin_probabilistico(int64 n, int64 p){
-  int64 k,i,pr=0, t = 100;
+  int64 k,i,pr=0, t = p;
   time_t at;
 
   srand((unsigned) time(&at));
@@ -68,13 +68,10 @@ int miller_rabin_probabilistico(int64 n, int64 p){
   for(i=0; i<t; i++){
     //printf("\n Choosen base = %u \n", k);
     k = rand()%(n-3)+2;
-    if(miller_rabin_singola_base(n,k) == 1) 
-      pr+=1;
+    if(miller_rabin_singola_base(n,k) ==0) 
+      return 0;
   }
-  printf("\n Precision = %u \n",(int32)((1-((double)pr/(double)t))*100));
-  if ((1-((double)pr/(double)t))*100 <p){
-      return 1;}
 
-  return 0;
+  return 1;
 }
 
