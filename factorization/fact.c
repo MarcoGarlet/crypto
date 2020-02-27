@@ -7,14 +7,9 @@ long long* fermatFact(unsigned long long n){
   a = (unsigned long long) sqrt(n);
   long long diff = n-a*a,b,*sol=malloc(sizeof(unsigned long long[2]));
   b = (long long)sqrt((double)(diff));
-  printf("\na = %llu diff= %ld\n",a,diff);
-  
   while(b*b != diff){
     a+=1;
-    printf("\na = %llu b= %ld \n",a,b);
-    //printf("\na = %llu\n",a);
     diff = (n-(a*a) <0) ? n-a*a : a*a-n ;
-    printf("\n diff = %ld \n",diff);
     b=(long long)sqrt(diff);
   }
   
