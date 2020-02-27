@@ -7,11 +7,11 @@ int main(int argc, char **argv){
   srand((unsigned) time(&t));
  
 
-  unsigned int f=0,n, p, lb, ch;
+  unsigned long long f=0,n, p, lb, ch;
   printf("\n Give me number of bit [1-16]: ");
-  scanf("%u",&n);
+  scanf("%llu",&n);
   printf("\n Give me precision: ");
-  scanf("%u",&p);
+  scanf("%llu",&p);
   /*
     considering only odd number and test primality for that, first choice would be random and then test number sequentially
   */
