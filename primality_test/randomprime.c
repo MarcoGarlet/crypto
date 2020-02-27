@@ -19,10 +19,10 @@ int main(int argc, char **argv){
   ch = rand()%((lb*2)-lb)+lb;
   if (ch % 2 ==0 ) ch+=1;
   while(!miller_rabin_probabilistico(ch,p)){ 
-    printf("\n bad Coiche: %u \n",ch); 
-    ch+=2;
-    if (ch > lb*2)
-      ch = lb+1;
+    //printf("\n bad Coiche: %u \n",ch); 
+    ch = rand()%((lb*2)-lb)+lb;
+    if (ch%2==0)
+      ch+=1;
   }
  
   printf("\n MY CHOICE: %u \n", ch);   
