@@ -1,5 +1,14 @@
+//#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
 #include<math.h>
-#include <time.h>
+
+void init_seed(){
+struct timeval time; 
+gettimeofday(&time,NULL);
+srand((time.tv_sec * 100000) + (time.tv_usec / 100000));
+}
 
 typedef unsigned short int16;
 typedef unsigned long int32;
@@ -61,13 +70,9 @@ int miller_rabin_regolare(int64 n){
 }
 int miller_rabin_probabilistico(int64 n, int64 p){
   int64 k,i,pr=0, t = p;
-  time_t at;
-
-  srand((unsigned) time(&at));
- 
   for(i=0; i<t; i++){
+    k = rand()%(n-4)+2;
     //printf("\n Choosen base = %u \n", k);
-    k = rand()%(n-3)+2;
     if(miller_rabin_singola_base(n,k) ==0) 
       return 0;
   }
