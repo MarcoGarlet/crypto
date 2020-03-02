@@ -69,7 +69,7 @@ def gf_invert(a, mod=0x1B) :
 ### USEFUL FUNCTIONS
 
 rshift = lambda x,y: [x[(i-y*1)%8] for i in range(8)]
-print_matrix = lambda x: print() or [[print('{:3}'.format(hex(el)), end=' ') for el in r] and print() for r in x] and print()
+print_matrix = lambda x: print() or [[print('{:4}'.format(hex(el)), end=' ') for el in r] and print() for r in x] and print()
 int2vect = lambda c: [int(bit) for bit in bin(c%16).split('b')[1][::-1]+('0'*(4-len(bin(c%16).split('b')[1])))+bin(c//16%16).split('b')[1][::-1]+('0'*(4-len(bin(c//16%16).split('b')[1])))] 
 vect2int = lambda v: int(''.join([str(i) for i in v])[::-1],2)
 transposed_matrix = lambda v: [[v[i][i1] for i in range(len(v))] for i1 in range(len(v[0]))] 
