@@ -4,15 +4,21 @@ import itertools
 import random
 import sys
 import math
-
+import os
 q=queue.Queue()
 r=queue.Queue()
 n = int(input('Gimmie n: '))
-# Each thread test fact of N with specific EC
-curves = list(range(1,n))
-random.shuffle(curves)
-points = list(itertools.product(range(1,n),range(1,n)))
-random.shuffle(points)
+
+def b_gen():
+  while True:
+    yield random.randint(1,n)
+
+def pairs_gen():
+  while True:
+    yield (random.randint(1,n),random.randint(1,n))
+
+curves = b_gen()
+points = pairs_gen()
 
 def egcd(a, b):
   if a == 0:
@@ -22,11 +28,8 @@ def egcd(a, b):
     return (gcd, y - (b//a) * x, x)
 
 def randomdecorator(pairs): 
-  index=-1
   def rand():
-    nonlocal index
-    index+=1
-    return pairs[index]
+    return next(pairs)
   return rand
 
 class Point:
@@ -51,34 +54,33 @@ class Point:
 randomcurve = randomdecorator(curves)
 randompoint =  randomdecorator(points) 
 
-def runner(b): 
-  #print("b = {}, c = {}".format(b,c))
-  exit = 0
-  while exit==0:
-    p = Point(randompoint(),b)
-    # we impose EC with p(x,y) passing throught my EC with parameter b by computing c
-    # y^2 = x^3+bx+c
-    # c = y^2-x^3-bx
+def runner(): 
+  b = q.get()
+  exit_code = 0
+  while exit_code==0:
+    pq = randompoint()
+    print(pq)
+    p = Point(pq,b)
     c = (p.y**2-p.x**3-b*p.x)%n
     s = p
     while True:
       s += p
-      if s.x == 'Infinity':
-        if s.y != 1: 
+      if s.x == 'Infinity' or r.qsize()>0:
+        if s.x == 'Infinity' and s.y != 1: 
           print("FOUND {}".format(s.y))
           r.put(s.y)
-        exit = 1
+        exit_code = 1
         break
   q.task_done()    
       
 if __name__=="__main__":
-  for i in range(90):
+  pool = []
+  for i in range(int(input('How many threads(EC)? '))):
     b = randomcurve()
     q.put(b)
-    print("Thread number: {}\r".format(i))
-    t=threading.Thread(target=runner(b))        
+    t = threading.Thread(target=runner)    
     t.start()
-q.join()
-print(r.get())
+  q.join()
+  print('Factor of n = {}'.format(r.get()))
 
 
