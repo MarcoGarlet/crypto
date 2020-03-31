@@ -9,6 +9,9 @@ Crypto aims to be a simple collection of cryptographic algorithms (even attacks)
 ### AES
 * <a href="https://github.com/MarcoGarlet/crypto/blob/master/aes128/aes128.py">Algorithm</a>
 
+### RSA
+* <a href="https://github.com/MarcoGarlet/crypto/blob/master/attack/ECRSA/att.py">Lenstra elliptic-curve factorization</a>
+
 ### Useful algorithms
 * <a href="https://github.com/MarcoGarlet/crypto/blob/master/basic_algo/euclidean.py">Euclidean algorithm</a>
 * <a href="https://github.com/MarcoGarlet/crypto/blob/master/primality_test/primality_test.h">Primality test</a>
