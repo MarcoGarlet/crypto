@@ -65,25 +65,22 @@ randompoint =  randomdecorator(points)
 
 def runner(): 
   b = q.get()
-  exit_code,clock_ec, clock_p,cmax = 0,0,0,random.randint(10,n//2)
-  while exit_code==0 and clock_ec < cmax:
-    pq = randompoint()
-    print(pq)
-    p = Point(pq,b)
-    c = (p.y**2-p.x**3-b*p.x)%n
-    s = p
-    k = 2
+  clock_ec,cmax = 0,random.randint(2**int(math.log(n,2)-1),2**int(math.log(n,2)+1))
+  pq = randompoint() 
+  print(pq)
+  p = Point(pq,b)
+  c = (p.y**2-p.x**3-b*p.x)%n
+  s = p
+  k = 2
+  while clock_ec < cmax:
     clock_ec+=1
-    while clock_p<cmax:
-      s = s*k
-      if s.x == 'Infinity':
-        if s.x == 'Infinity' and s.y != 1: 
-          print("FOUND {}".format(s.y))
-          r.put(s.y)
-        else: print("Invalid EC")
-        exit_code = 1
-        break
-      clock_p += 1
+    s = s*k
+    if s.x == 'Infinity':
+      if s.x == 'Infinity' and s.y != 1: 
+        print("FOUND {}".format(s.y))
+        r.put(s.y)
+      else: print("Invalid EC")
+      break
   q.task_done()    
       
 if __name__=="__main__":
