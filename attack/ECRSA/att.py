@@ -49,9 +49,7 @@ class Point:
     m = (num*invd)%n
     # IF NOT EXISTS INVERSE with n then problematic number extend gcd
     return Point(((m**2-self.x-p.x)%n,(m*(self.x-(m**2-self.x))-self.y)%n),self.b)
-  '''
-  TODO: def mul 
-  '''
+  
   def __mul__(self, p):
     r = self
     for i in range(p):
@@ -76,7 +74,7 @@ def runner():
     clock_ec+=1
     s = s*k
     if s.x == 'Infinity':
-      if s.x == 'Infinity' and s.y != 1: 
+      if s.y != 1: 
         print("FOUND {}".format(s.y))
         r.put(s.y)
       else: print("Invalid EC")
