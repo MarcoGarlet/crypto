@@ -49,6 +49,15 @@ class Point:
     m = (num*invd)%n
     # IF NOT EXISTS INVERSE with n then problematic number extend gcd
     return Point(((m**2-self.x-p.x)%n,(m*(self.x-(m**2-self.x))-self.y)%n),self.b)
+  '''
+  TODO: def mul 
+  '''
+  def __mul__(self, p):
+    r = self
+    for i in range(p):
+      r+=self
+      if r.x == 'Infinity': break
+    return r
       
  
 randomcurve = randomdecorator(curves)
@@ -56,21 +65,25 @@ randompoint =  randomdecorator(points)
 
 def runner(): 
   b = q.get()
-  exit_code = 0
-  while exit_code==0:
+  exit_code,clock_ec, clock_p,cmax = 0,0,0,random.randint(10,n//2)
+  while exit_code==0 and clock_ec < cmax:
     pq = randompoint()
     print(pq)
     p = Point(pq,b)
     c = (p.y**2-p.x**3-b*p.x)%n
     s = p
-    while True:
-      s += p
-      if s.x == 'Infinity' or r.qsize()>0:
+    k = 2
+    clock_ec+=1
+    while clock_p<cmax:
+      s = s*k
+      if s.x == 'Infinity':
         if s.x == 'Infinity' and s.y != 1: 
           print("FOUND {}".format(s.y))
           r.put(s.y)
+        else: print("Invalid EC")
         exit_code = 1
         break
+      clock_p += 1
   q.task_done()    
       
 if __name__=="__main__":
