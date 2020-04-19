@@ -82,7 +82,6 @@ def runner():
   q.task_done()    
       
 if __name__=="__main__":
-  pool = []
   for i in range(int(input('How many threads(EC)? '))):
     b = randomcurve()
     q.put(b)
