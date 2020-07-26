@@ -9,7 +9,7 @@ Let ![s](https://latex.codecogs.com/svg.latex?S) be an S-box, compute differenti
 ![equals1](https://latex.codecogs.com/svg.latex?D_%7B%5CDelta%7D%5E%7B%5Cdelta%7D%28S%29%20%3D%20%5C%23%5C%7B%28x%2Cy%29%20%5Cin%20input%5E%7B2%7D%20%3A%20x%20%5Coplus%20y%20%3D%20%5CDelta%2C%20S%28x%29%20%5Coplus%20S%28y%29%20%3D%20%5Cdelta%20%5C%7D)
 
 Linear characteristics of ![s](https://latex.codecogs.com/svg.latex?S) are denoted with ![linchr](https://latex.codecogs.com/svg.latex?\mathcal{L}_{M}^{m}(S)) standing for the difference between:
-* number of input elements ![x](https://latex.codecogs.com/svg.latex?x) such that bitwise scalar products ![scalprodin](https://latex.codecogs.com/svg.latex?(M|x)) and ![scalprodout](https://latex.codecogs.com/svg.latex?(m|S(x)))
+* number of input elements ![x](https://latex.codecogs.com/svg.latex?x) such that bitwise scalar products ![scalprodin](https://latex.codecogs.com/svg.latex?(M|x)) and ![scalprodout](https://latex.codecogs.com/svg.latex?(m|S(x))) are equals modulo 2
 * number of pairs such that these scalar product are different
 
 Pay attention on implementation of bitwise scalar product, for ![a](https://latex.codecogs.com/svg.latex?a) and ![b](https://latex.codecogs.com/svg.latex?b) is:
