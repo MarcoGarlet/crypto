@@ -16,7 +16,7 @@ Pay attention on implementation of bitwise scalar product, for ![a](https://late
 
 ![bitwiseprod](https://latex.codecogs.com/svg.latex?(a|b)%20=%20\sum_{i%20=%200}^{l-1}%20a_ib_imod%202)
 
-assuming ![a](https://latex.codecogs.com/svg.latex?a) and ![b](https://latex.codecogs.com/svg.latex?b) having ![l](https://latex.codecogs.com/svg.latex?l) bit.
+assuming ![a](https://latex.codecogs.com/svg.latex?a=\sum_{i=0}^{l-1}%20a_i\cdot%202^i) and ![b](https://latex.codecogs.com/svg.latex?b=\sum_{i=0}^{l-1}%20b_i\cdot%202^i) where ![l](https://latex.codecogs.com/svg.latex?l) is bit length of ![a](https://latex.codecogs.com/svg.latex?a) and ![b](https://latex.codecogs.com/svg.latex?b).
 
 
 Now the Walsh transform is a kind of discrete Fourier transform with lot of application in coding theory and cryptography. 
