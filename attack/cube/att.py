@@ -4,7 +4,10 @@ import numpy as np
 import colorama
 from colorama import Fore, Style
 
-success='''          .                                                      .
+def pretty_skull(success):
+  f1,f2 = 'KEY CRACKED'.split() if success else 'YOU FAILED'.split()
+  col = Fore.GREEN if success else Fore.RED 
+  return Fore.WHITE+'''          .                                                      .
         .n                   .                 .                  n.
   .   .dP                  dP                   9b                 9b.    .
  4    qXb         .       dX                     Xb       .        dXp     t
@@ -12,7 +15,7 @@ dX.    9Xb      .dXb    __                         __    dXb.     dXP     .Xb
 9XXb._       _.dXXXXb dXXXXbo.                 .odXXXXb dXXXXb._       _.dXXP
  9XXXXXXXXXXXXXXXXXXXVXXXXXXXXOo.           .oOXXXXXXXXVXXXXXXXXXXXXXXXXXXXP
   `9XXXXXXXXXXXXXXXXXXXXX'~   ~`OOO8b   d8OOO'~   ~`XXXXXXXXXXXXXXXXXXXXXP'
-    `9XXXXXXXXXXXP' `9XX'   KEY    `98v8P'  CRACKED `XXP' `9XXXXXXXXXXXP'
+    `9XXXXXXXXXXXP' `9XX\''''+col+'''{}'''.format('  '+f1+(' '*(10-(len(f1)+2))))+Fore.WHITE+'''`98v8P\''''+col+'''{}'''.format('  '+f2+(' '*(10-(len(f2)+2))))+Fore.WHITE+'''`XXP' `9XXXXXXXXXXXP'
         ~~~~~~~       9X.          .db|db.          .XP       ~~~~~~~
                         )b.  .dbo.dP'`v'`9b.odb.  .dX(
                       ,dXXXXXXXXXXXb     dXXXXXXXXXXXb.
@@ -26,6 +29,8 @@ dX.    9Xb      .dXb    __                         __    dXb.     dXP     .Xb
                               `b  `       '  d'
                                `             '
 '''
+  
+
 
 m, n = 3,3 # n for public, m for private
 d = 3
@@ -89,9 +94,9 @@ def online_phase(psi):
     I_signed = set(range(d)).difference(set(ti_index))
     corners = [v for v in cube_v if all([v[x]=='0' for x in I_signed])]
     '''
-    If master polynomial is tweaked with cube index 􏰏{1,2}􏰐 while keeping 􏰂􏰅 􏰈0 , the four 0/1 values of the derived polynomials are obtained. 
+    If master polynomial is tweaked with cube index {1,2} while keeping 􏰈0, the four 0/1 values of the derived polynomials are obtained. 
     Summation of these four values simply gives the right hand side of the expression.
-    The process is repeated in the same way for the next two cube indexes 􏰏1,3􏰐 and 􏰏2,3􏰐.
+    The process is repeated in the same way for the next two cube indexes 1,3 and 2,3 
     '''
     system_eq[reduce(lambda x,y: x+y, [str(c) for c in psi_v])]=reduce(lambda x,y: x^y, [crypt(c) for c in corners])
 
@@ -108,7 +113,7 @@ if __name__=="__main__":
   final_res = np.linalg.solve(np.array(var), np.array(coeff))
   cracked_key = reduce(lambda x,y: x+y,[str(x) for x in Z2_transform(final_res)])
   print('key to guess\t=\t'+Fore.RED+'{} '.format(private_k)+Fore.RESET+'\ncracked key\t=\t'+Fore.GREEN+'{} '.format(cracked_key))
-  if (cracked_key==private_k):
-    print(success)
+  print(pretty_skull(cracked_key==private_k))
+
 
 
