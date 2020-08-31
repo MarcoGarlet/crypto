@@ -13,31 +13,10 @@ class Log:
   
 
 
-def pretty_skull(success):
+def result(success):
   f1,f2 = 'KEY CRACKED'.split() if success else 'ATTACK FAILED'.split()
   col = Fore.GREEN if success else Fore.RED 
-  return Fore.WHITE+'''          .                                                      .
-        .n                   .                 .                  n.
-  .   .dP                  dP                   9b                 9b.    .
- 4    qXb         .       dX                     Xb       .        dXp     t
-dX.    9Xb      .dXb    __                         __    dXb.     dXP     .Xb
-9XXb._       _.dXXXXb dXXXXbo.                 .odXXXXb dXXXXb._       _.dXXP
- 9XXXXXXXXXXXXXXXXXXXVXXXXXXXXOo.           .oOXXXXXXXXVXXXXXXXXXXXXXXXXXXXP
-  `9XXXXXXXXXXXXXXXXXXXXX'~   ~`OOO8b   d8OOO'~   ~`XXXXXXXXXXXXXXXXXXXXXP'
-    `9XXXXXXXXXXXP' `9XX\''''+col+'''{}'''.format('  '+f1+(' '*(10-(len(f1)+2))))+Fore.WHITE+'''`98v8P\''''+col+'''{}'''.format('  '+f2+(' '*(10-(len(f2)+2))))+Fore.WHITE+'''`XXP' `9XXXXXXXXXXXP'
-        ~~~~~~~       9X.          .db|db.          .XP       ~~~~~~~
-                        )b.  .dbo.dP'`v'`9b.odb.  .dX(
-                      ,dXXXXXXXXXXXb     dXXXXXXXXXXXb.
-                     dXXXXXXXXXXXP'   .   `9XXXXXXXXXXXb
-                    dXXXXXXXXXXXXb   d|b   dXXXXXXXXXXXXb
-                    9XXb'   `XXXXXb.dX|Xb.dXXXXX'   `dXXP
-                     `'      9XXXXXX(   )XXXXXXP      `'
-                              XXXX X.`v'.X XXXX
-                              XP^X'`b   d'`X^XX
-                              X. 9  `   '  P )X
-                              `b  `       '  d'
-                               `             '
-'''
+  return Fore.WHITE+col+'{}'.format(f1)+'{}'.format('  '+f2)
   
 
 log=Log()
@@ -132,7 +111,7 @@ if __name__=="__main__":
   final_res = np.linalg.solve(np.array(var), np.array(coeff))
   cracked_key = reduce(lambda x,y: x+y,[str(x) for x in Z2_transform(final_res)])
   print('key to guess\t=\t'+Fore.RED+'{} '.format(private_k)+Fore.RESET+'\ncracked key\t=\t'+Fore.GREEN+'{} '.format(cracked_key))
-  print(pretty_skull(cracked_key==private_k))
+  print(result(cracked_key==private_k))
   if(cracked_key!=private_k): print(Fore.RED+'{}'.format(log.l))
 
 
